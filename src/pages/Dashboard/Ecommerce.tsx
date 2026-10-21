@@ -3,7 +3,13 @@ import DemographicCard from "@/components/ecommerce/DemographicCard";
 import EcommerceMetrics from "@/components/ecommerce/EcommerceMetrics";
 import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart";
 import MonthlyTarget from "@/components/ecommerce/MonthlyTarget";
-import PopulationPyramidChart from "@/components/ecommerce/PopulationPyramidChart";
+import {
+  PopulationGenderPieChart,
+  PopulationGenderTable,
+} from "@/components/ecommerce/PopulationGenderChart";
+import PopulationPyramidChart, {
+  PopulationPyramidTable,
+} from "@/components/ecommerce/PopulationPyramidChart";
 import RecentOrders from "@/components/ecommerce/RecentOrders";
 import StatisticsChart from "@/components/ecommerce/StatisticsChart";
 
@@ -15,6 +21,22 @@ export default function Ecommerce() {
         description="This is React.js Ecommerce Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
       <div className="grid grid-cols-12 gap-4 md:gap-6">
+        <div className="col-span-12 xl:col-span-8">
+          <PopulationPyramidChart />
+        </div>
+
+        <div className="col-span-12 xl:col-span-4">
+          <PopulationPyramidTable />
+        </div>
+
+        <div className="col-span-12 xl:col-span-6">
+          <PopulationGenderPieChart />
+        </div>
+
+        <div className="col-span-12 xl:col-span-6">
+          <PopulationGenderTable />
+        </div>
+
         <div className="col-span-12 space-y-6 xl:col-span-7">
           <EcommerceMetrics />
 
@@ -27,10 +49,6 @@ export default function Ecommerce() {
 
         <div className="col-span-12">
           <StatisticsChart />
-        </div>
-
-        <div className="col-span-12">
-          <PopulationPyramidChart />
         </div>
 
         <div className="col-span-12 xl:col-span-5">
