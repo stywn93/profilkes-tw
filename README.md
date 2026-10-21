@@ -73,6 +73,22 @@ git clone https://github.com/TailAdmin/free-react-tailwind-admin-dashboard.git
     yarn dev
     ```
 
+### Backend
+
+The project includes a small Express and MySQL backend for population age-group data.
+
+1. Copy `.env.example` to `.env` and set the local MySQL password.
+2. Start the backend:
+
+    ```bash
+    npm run backend:dev
+    ```
+
+The backend runs on `http://localhost:3000` and provides:
+
+- `GET /api/healthcheck`
+- `GET /api/population/age-groups?year=2025`
+
 ## Components
 
 TailAdmin is a pre-designed starting point for building a web-based dashboard using React.js and Tailwind CSS. The
