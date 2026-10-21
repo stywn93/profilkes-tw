@@ -1,0 +1,30 @@
+- Dashboard
+- Overview
+	- Demografi Penduduk
+- Pelayanan Kesehatan
+	- Bed Occupancy Rate
+	- Turn Over Interval
+	- Average Length of Stay
+	- Bed Turn Over
+	- Gross Death Rate
+	- Net Death Rate
+	- Top 10 Penyakit
+- SDMK
+	- Rangkuman Kondisi SDMK
+- Kesehatan Ibu dan Anak
+	- AKI
+	- K1 dan K6
+	- AKB
+	- Berat Bayi Lahir Rendah
+	- Gizi
+	- Imunisasi
+- Pencegahan dan Pengendalian Penyakit
+	- Diare
+	- Kusta
+	- Malaria
+	- TBC
+	- HIV
+	- Hipertensi
+- Kesehatan Lingkungan
+	- Pengelolaan Air Minum Rumah Tangga
+	- STBM

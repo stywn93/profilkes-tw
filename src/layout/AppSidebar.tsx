@@ -44,7 +44,7 @@ const navItems: NavItem[] = [
   },
   {
     icon: <CalenderIcon fontSize={24} />,
-    name: "Calendar",
+    name: "Gambaran Umum",
     key: "calendar",
     path: "/calendar",
   },
