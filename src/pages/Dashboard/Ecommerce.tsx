@@ -4,6 +4,10 @@ import EcommerceMetrics from "@/components/ecommerce/EcommerceMetrics";
 import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart";
 import MonthlyTarget from "@/components/ecommerce/MonthlyTarget";
 import {
+  fetchEducationData,
+  type EducationData,
+} from "@/components/ecommerce/literacyEducationApi";
+import {
   PopulationGenderPieChart,
   PopulationGenderTable,
 } from "@/components/ecommerce/PopulationGenderChart";
@@ -22,6 +26,9 @@ export default function Ecommerce() {
   const [populationData, setPopulationData] = useState<PopulationAgeGroupData[]>([]);
   const [populationIsLoading, setPopulationIsLoading] = useState(true);
   const [populationError, setPopulationError] = useState<string | null>(null);
+  const [educationData, setEducationData] = useState<EducationData[]>([]);
+  const [educationIsLoading, setEducationIsLoading] = useState(true);
+  const [educationError, setEducationError] = useState<string | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -57,6 +64,40 @@ export default function Ecommerce() {
     };
   }, []);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    let isActive = true;
+
+    fetchEducationData(controller.signal)
+      .then((data) => {
+        if (isActive) {
+          setEducationData(data);
+          setEducationError(null);
+        }
+      })
+      .catch((error: unknown) => {
+        if (!isActive || (error instanceof Error && error.name === "AbortError")) {
+          return;
+        }
+
+        setEducationError(
+          error instanceof Error
+            ? error.message
+            : "Unable to load education data.",
+        );
+      })
+      .finally(() => {
+        if (isActive) {
+          setEducationIsLoading(false);
+        }
+      });
+
+    return () => {
+      isActive = false;
+      controller.abort();
+    };
+  }, []);
+
   return (
     <>
       <PageMeta
@@ -81,11 +122,19 @@ export default function Ecommerce() {
         </div>
 
         <div className="col-span-12 xl:col-span-6">
-          <PopulationGenderPieChart />
+          <PopulationGenderPieChart
+            data={educationData}
+            isLoading={educationIsLoading}
+            error={educationError}
+          />
         </div>
 
         <div className="col-span-12 xl:col-span-6">
-          <PopulationGenderTable />
+          <PopulationGenderTable
+            data={educationData}
+            isLoading={educationIsLoading}
+            error={educationError}
+          />
         </div>
 
         <div className="col-span-12 space-y-6 xl:col-span-7">

@@ -88,6 +88,7 @@ The backend runs on `http://localhost:3000` and provides:
 
 - `GET /api/healthcheck`
 - `GET /api/population/age-groups?year=2025`
+- `GET /api/population/literacy-education?year=2025`
 
 ## Components
 
