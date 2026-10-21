@@ -10,10 +10,53 @@ import {
 import PopulationPyramidChart, {
   PopulationPyramidTable,
 } from "@/components/ecommerce/PopulationPyramidChart";
+import {
+  fetchPopulationAgeGroups,
+  type PopulationAgeGroupData,
+} from "@/components/ecommerce/populationApi";
 import RecentOrders from "@/components/ecommerce/RecentOrders";
 import StatisticsChart from "@/components/ecommerce/StatisticsChart";
+import { useEffect, useState } from "react";
 
 export default function Ecommerce() {
+  const [populationData, setPopulationData] = useState<PopulationAgeGroupData[]>([]);
+  const [populationIsLoading, setPopulationIsLoading] = useState(true);
+  const [populationError, setPopulationError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let isActive = true;
+
+    fetchPopulationAgeGroups(controller.signal)
+      .then((data) => {
+        if (isActive) {
+          setPopulationData(data);
+          setPopulationError(null);
+        }
+      })
+      .catch((error: unknown) => {
+        if (!isActive || (error instanceof Error && error.name === "AbortError")) {
+          return;
+        }
+
+        setPopulationError(
+          error instanceof Error
+            ? error.message
+            : "Unable to load population data.",
+        );
+      })
+      .finally(() => {
+        if (isActive) {
+          setPopulationIsLoading(false);
+        }
+      });
+
+    return () => {
+      isActive = false;
+      controller.abort();
+    };
+  }, []);
+
   return (
     <>
       <PageMeta
@@ -22,11 +65,19 @@ export default function Ecommerce() {
       />
       <div className="grid grid-cols-12 gap-4 md:gap-6">
         <div className="col-span-12 xl:col-span-8">
-          <PopulationPyramidChart />
+          <PopulationPyramidChart
+            data={populationData}
+            isLoading={populationIsLoading}
+            error={populationError}
+          />
         </div>
 
         <div className="col-span-12 xl:col-span-4">
-          <PopulationPyramidTable />
+          <PopulationPyramidTable
+            data={populationData}
+            isLoading={populationIsLoading}
+            error={populationError}
+          />
         </div>
 
         <div className="col-span-12 xl:col-span-6">
