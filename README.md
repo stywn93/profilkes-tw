@@ -78,10 +78,25 @@ git clone https://github.com/TailAdmin/free-react-tailwind-admin-dashboard.git
 The project includes a small Express and MySQL backend for population age-group data.
 
 1. Copy `.env.example` to `.env` and set the local MySQL password.
-2. Start the backend:
+2. Start MySQL and seed the database:
+
+    ```bash
+    docker compose up -d
+    npm run db:seed
+    ```
+
+    The SQL files in `database/` create the tables and insert the 2025 data. The seed is idempotent, so running it again will not duplicate rows.
+
+3. Start the backend:
 
     ```bash
     npm run backend:dev
+    ```
+
+4. Start the frontend in another terminal:
+
+    ```bash
+    npm run dev
     ```
 
 The backend runs on `http://localhost:3000` and provides:

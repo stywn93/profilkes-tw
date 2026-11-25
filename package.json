@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "backend:dev": "tsx watch server/index.ts",
     "backend:start": "tsx server/index.ts",
+    "db:seed": "bash scripts/db-seed.sh",
     "lint": "eslint .",
     "preview": "vite preview"
   },
