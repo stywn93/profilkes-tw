@@ -9,5 +9,7 @@ seed_file() {
 
 seed_file database/population_age_groups.sql
 seed_file database/population_literacy_education.sql
+seed_file database/profilkes_indicators_batch1.sql
+seed_file database/profilkes_indicators_batch2.sql
 
 echo "Database seed selesai."

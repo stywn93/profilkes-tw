@@ -4,19 +4,16 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router";
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
   PageIcon,
   PieChartIcon,
-  PlugInIcon,
   TableIcon,
   UserCircleIcon,
 } from "../icons";
 import { cn } from "../utils";
-import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
@@ -35,92 +32,80 @@ type NavItem = {
   }[];
 };
 
+// Menu Profilkes (sidebar.md, 2026-11-25). Item tanpa `key` menampilkan
+// `name` langsung (tanpa i18n), supaya label berbahasa Indonesia.
+// Data tiap menu tinggal di halaman src/pages/Profilkes/.
 const navItems: NavItem[] = [
   {
     icon: <GridIcon fontSize={24} />,
     name: "Dashboard",
-    key: "dashboard",
     path: "/",
   },
   {
-    icon: <CalenderIcon fontSize={24} />,
-    name: "Gambaran Umum",
-    key: "calendar",
-    path: "/calendar",
+    icon: <PieChartIcon fontSize={24} />,
+    name: "Overview",
+    subItems: [
+      { name: "Demografi Penduduk", path: "/demografi" },
+      { name: "Resume Indikator", path: "/resume" },
+    ],
+  },
+  {
+    icon: <TableIcon fontSize={24} />,
+    name: "Pelayanan Kesehatan",
+    subItems: [
+      { name: "Bed Occupancy Rate", path: "/pelayanan-kesehatan/bor" },
+      { name: "Turn Over Interval", path: "/pelayanan-kesehatan/toi" },
+      { name: "Average Length of Stay", path: "/pelayanan-kesehatan/alos" },
+      { name: "Bed Turn Over", path: "/pelayanan-kesehatan/bto" },
+      { name: "Gross Death Rate", path: "/pelayanan-kesehatan/gdr" },
+      { name: "Net Death Rate", path: "/pelayanan-kesehatan/ndr" },
+      { name: "Top 10 Penyakit", path: "/pelayanan-kesehatan/top-10-penyakit" },
+    ],
   },
   {
     icon: <UserCircleIcon fontSize={24} />,
-    name: "User Profile",
-    key: "userProfile",
-    path: "/profile",
-  },
-  {
-    name: "Forms",
-    key: "forms",
-    icon: <ListIcon fontSize={24} />,
+    name: "SDMK",
     subItems: [
-      {
-        name: "Form Elements",
-        key: "formElements",
-        path: "/form-elements",
-        pro: false,
-      },
-    ],
-  },
-  {
-    name: "Tables",
-    key: "tables",
-    icon: <TableIcon fontSize={24} />,
-    subItems: [
-      {
-        name: "Basic Tables",
-        key: "basicTables",
-        path: "/basic-tables",
-        pro: false,
-      },
-    ],
-  },
-  {
-    name: "Pages",
-    key: "pages",
-    icon: <PageIcon fontSize={24} />,
-    subItems: [{ name: "Blank Page", key: "blankPage", path: "/blank" }],
-  },
-];
-
-const othersItems: NavItem[] = [
-  {
-    icon: <PieChartIcon fontSize={24} />,
-    name: "Charts",
-    key: "charts",
-    subItems: [
-      { name: "Line Chart", key: "lineChart", path: "/line-chart" },
-      { name: "Bar Chart", key: "barChart", path: "/bar-chart" },
+      { name: "Rangkuman Kondisi SDMK", path: "/sdmk" },
     ],
   },
   {
     icon: <BoxCubeIcon fontSize={24} />,
-    name: "UI Elements",
-    key: "uiElements",
+    name: "Kesehatan Ibu dan Anak",
     subItems: [
-      { name: "Alerts", key: "alerts", path: "/alerts", pro: false },
-      { name: "Avatar", key: "avatar", path: "/avatars", pro: false },
-      { name: "Badge", key: "badge", path: "/badge", pro: false },
-      { name: "Buttons", key: "buttons", path: "/buttons", pro: false },
-      { name: "Images", key: "images", path: "/images", pro: false },
-      { name: "Videos", key: "videos", path: "/videos", pro: false },
+      { name: "AKI", path: "/kia/aki" },
+      { name: "K1 dan K6", path: "/kia/k1-k6" },
+      { name: "AKB", path: "/kia/akb" },
+      { name: "Berat Bayi Lahir Rendah", path: "/kia/bblr" },
+      { name: "Gizi", path: "/kia/gizi" },
+      { name: "Imunisasi", path: "/kia/imunisasi" },
     ],
   },
   {
-    icon: <PlugInIcon fontSize={24} />,
-    name: "Authentication",
-    key: "authentication",
+    icon: <ListIcon fontSize={24} />,
+    name: "Pencegahan dan Pengendalian Penyakit",
     subItems: [
-      { name: "Sign In", key: "signIn", path: "/signin", pro: false },
-      { name: "Sign Up", key: "signUp", path: "/signup", pro: false },
+      { name: "Diare", path: "/p2p/diare" },
+      { name: "Kusta", path: "/p2p/kusta" },
+      { name: "Malaria", path: "/p2p/malaria" },
+      { name: "TBC", path: "/p2p/tbc" },
+      { name: "HIV", path: "/p2p/hiv" },
+      { name: "Hipertensi", path: "/p2p/hipertensi" },
+    ],
+  },
+  {
+    icon: <PageIcon fontSize={24} />,
+    name: "Kesehatan Lingkungan",
+    subItems: [
+      { name: "Pengelolaan Air Minum Rumah Tangga", path: "/kesling/air-minum" },
+      { name: "STBM", path: "/kesling/stbm" },
     ],
   },
 ];
+
+// Grup template TailAdmin (Charts, UI Elements, Authentication) dihapus
+// 2026-11-25 — sidebar hanya berisi menu Profilkes.
+const othersItems: NavItem[] = [];
 
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered, setIsMobileOpen } =
@@ -248,8 +233,7 @@ const AppSidebar: React.FC = () => {
               {(isExpanded || isHovered || isMobileOpen) && (
                 <ChevronDownIcon
                   className={`ms-auto h-5 w-5 transition-transform duration-200 ${
-                    openSubmenu?.type === menuType &&
-                    openSubmenu?.index === index
+                    openSubmenu?.type === menuType && openSubmenu?.index === index
                       ? "rotate-180 text-brand-500"
                       : ""
                   }`}
@@ -365,29 +349,18 @@ const AppSidebar: React.FC = () => {
       >
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
-            <>
-              <img
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-              <img
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </>
+            <span className="leading-tight">
+              <span className="block text-lg font-bold text-gray-800 dark:text-white">
+                Profil Kesehatan
+              </span>
+              <span className="block text-xs text-gray-500 dark:text-gray-400">
+                Kabupaten Situbondo · 2025
+              </span>
+            </span>
           ) : (
-            <img
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-500 text-sm font-bold text-white">
+              PK
+            </span>
           )}
         </Link>
       </div>
@@ -412,26 +385,26 @@ const AppSidebar: React.FC = () => {
               {renderMenuItems(navItems, "main")}
             </div>
 
-            <div>
-              <h2
-                className={`mb-4 flex text-xs leading-5 text-gray-400 uppercase ${
-                  !isExpanded && !isHovered
-                    ? "xl:justify-center"
-                    : "justify-start"
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  t("sidebar.groups.others")
-                ) : (
-                  <HorizontaLDots className="size-6" />
-                )}
-              </h2>
-              {renderMenuItems(othersItems, "others")}
-            </div>
+            {othersItems.length > 0 && (
+              <div>
+                <h2
+                  className={`mb-4 flex text-xs leading-5 text-gray-400 uppercase ${
+                    !isExpanded && !isHovered
+                      ? "xl:justify-center"
+                      : "justify-start"
+                  }`}
+                >
+                  {isExpanded || isHovered || isMobileOpen ? (
+                    t("sidebar.groups.others")
+                  ) : (
+                    <HorizontaLDots className="size-6" />
+                  )}
+                </h2>
+                {renderMenuItems(othersItems, "others")}
+              </div>
+            )}
           </div>
         </nav>
-
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
       </div>
     </aside>
   );

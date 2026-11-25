@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import { pool } from "./db.ts";
 import populationRouter from "./routes/population.ts";
+import profilkesRouter from "./routes/profilkes.ts";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get("/api/healthcheck", async (_request, response) => {
 });
 
 app.use("/api/population", populationRouter);
+app.use("/api", profilkesRouter);
 
 app.use((_request, response) => {
   response.status(404).json({ error: "Not found" });

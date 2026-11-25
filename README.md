@@ -104,6 +104,13 @@ The backend runs on `http://localhost:3000` and provides:
 - `GET /api/healthcheck`
 - `GET /api/population/age-groups?year=2025`
 - `GET /api/population/literacy-education?year=2025`
+- `GET /api/population/summary?year=2025`
+- `GET /api/resume?year=2025&section=I` (Batch 1: 150 Resume indicators)
+- `GET /api/demography/districts?year=2025` (Batch 1: Tabel 1, 17 kecamatan)
+- `GET /api/hospitals/performance?year=2025` (Batch 1: Tabel 6 + 7, 8 RS)
+- `GET /api/diseases/top10?year=2025&type=outpatient` (Batch 1: Tabel 8)
+- `GET /api/sdmk/summary?year=2025` (Batch 2: Tabel 13-18, total kabupaten + STR + rasio)
+- `GET /api/sdmk/table?year=2025&table=13&category=all` (Batch 2: Tabel 13-18 per fasyankes; category: all, puskesmas, rumah_sakit, fasyankes_lain)
 
 ## Components
 
